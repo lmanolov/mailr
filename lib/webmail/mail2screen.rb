@@ -1,4 +1,5 @@
 require 'cdfutils'
+
 module Mail2Screen
   def mail2html(mail, msg_id)
     footer = ""
@@ -14,7 +15,7 @@ module Mail2Screen
     if @mail.bcc_addrs
       ret << "  <tr><td class='label' nowrap='nowrap'>#{t :bcc}:</td><td>#{address(mail.bcc_addrs, @msg_id)}</td></tr>\n"
     end
-    ret << "  <tr><td class='label' nowrap='nowrap'>#{t :subject}:</td><td>#{h(mime_encoded?(mail.subject) ? mime_decode(mail.subject) : mail.subject)}</dd>\n"  
+    ret << "  <tr><td class='label' nowrap='nowrap'>#{t :subject}:</td><td>#{h(mime_encoded?(mail["subject"].encoded) ? mime_decode(mail["subject"].encoded) : mail.subject)}</td>\n" 
     ret << "  <tr><td class='label' nowrap='nowrap'>#{t :date}:</td><td>#{h message_date(mail.date)}</td></tr>\n"
     if footer != ''
     	ret << "  <tr><td class='label' nowrap='nowrap'>#{image_tag('attachment.png')}</td><td>#{footer}</td></tr>\n"
@@ -164,7 +165,7 @@ module Mail2Screen
     ret = ""
     addresses.each { |addr| #split(/,\s*/)
       ret << "," unless ret == ""
-      ret << CGI.escapeHTML(friendly_address_or_name(addr)) << add_to_contact(addr, msg_id)
+      ret << CGI.escapeHTML(friendly_address_or_name(addr.encoded)) << add_to_contact(addr, msg_id)
     } unless addresses.nil?
     return ret
   end

@@ -1,4 +1,4 @@
-<h1><%=_('Mailbox')%></h1>
+<h1><%=_('mailbox')%></h1>
 <div id="header">
   <ul id="primary">
     <li><%=link_folders%></li>
@@ -21,7 +21,7 @@
     </tr>
     <tr><td colspan="4"><%=_('Messages matching')%></td></tr>
     <%= render_partial_collection "expr", @expressions %>
-    <tr><td colspan="4"><input type="submit" name="op" value="<%=_('Add')%>"/></td></tr>
+    <tr><td colspan="4"><input type="submit" name="op" value="<%=_('add')%>"/></td></tr>
     <tr>
       <td><label for="filter[destination_folder]"><%=_('Will be placed in')%></label></td>
       <td  colspan='3'>
@@ -31,8 +31,8 @@
       </td>
     </tr>
     <tr><td colspan="4">
-      <input type="submit" name="op" value="<%=_('Save')%>"/>
-      <input type="button" name="op" value="<%=_('Cancel')%>" onclick="changeLoc('/webmail/webmail/filters');"/>
+      <input type="submit" name="op" value="<%=_('save')%>"/>
+      <input type="button" name="op" value="<%=_('cancel')%>" onclick="changeLoc('/webmail/webmail/filters');"/>
     </td></tr>  
   </table>
   

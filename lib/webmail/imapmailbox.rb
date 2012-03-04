@@ -301,6 +301,7 @@ class IMAPFolder
     # ensure we have trash folder
     begin
       @mailbox.imap.create(CDF::CONFIG[:mail_trash])
+      @mailbox.reload
     rescue  
     end
     move_multiple(uids, CDF::CONFIG[:mail_trash])
@@ -376,7 +377,7 @@ class IMAPFolder
   end
 
   def synchronize_cache(offset=0, limit = 10)
-    to = limit+offset
+    to = (limit - 1)+offset
     startSync = Time.now
     activate
     startUidFetch = Time.now
@@ -384,7 +385,7 @@ class IMAPFolder
     #Count all messages
     count = @mailbox.imap.fetch(1..-1, "UID")
     to = count.size if count.size < to
-
+    offset = to if offset > to
     
     range = (offset..to)
     logger.info range.inspect
@@ -459,6 +460,16 @@ class IMAPFolder
                                       :size => cache.attr['RFC822.SIZE'])
       }
   end
+
+  def messages_rev(page, pages_num, rows_num, sort = 'data desc') 
+    offset = pages_num - page * rows_num 
+    limit = rows_num 
+    if offset < 1 
+      limit = limit + offset 
+      offset = 0 
+    end 
+    messages(offset, limit, sort) 
+  end 
   
   def messages(offset = 0, limit = 10, sort = 'date desc')
     # Synchronize first retrieval time

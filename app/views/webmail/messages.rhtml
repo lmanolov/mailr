@@ -67,7 +67,7 @@
       </thead>
       <tbody>
         <% for message in @messages %>
-          <%=  render :partial  => 'message_row', :object => message %>
+          <%=  render :partial  => 'message_row', :object => message if message %>
         <% end %>
       </tbody>
     </table>

@@ -64,3 +64,5 @@ en:
   add_folder:     Add folder
   total_messages: Total messages
   unseen:         Unseen
+  add_edit_folder: Add/Edit folder 
+  want_to_empty_trash_message: Do you really want to empty trash message?

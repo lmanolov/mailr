@@ -90,7 +90,7 @@ class WebmailController < ApplicationController
       @messages = folder.messages_search([@search_field, @search_value], sort_query + (reverse_sort ? ' desc' : ' asc'))
     else
       @pages = Paginator.new self, folder.total, get_mail_prefs.wm_rows, @page
-      @messages = folder.messages(@pages.current.first_item - 1, get_mail_prefs.wm_rows, sort_query + (reverse_sort ? ' desc' : ' asc'))
+      @messages = @pages.last.last_item > 0 ? folder.messages_rev(@page ? @page.to_i : 1, @pages.last.last_item, get_mail_prefs.wm_rows, sort_query + (reverse_sort ? ' desc' : ' asc')) : "" 
     end
     
   end
@@ -184,7 +184,7 @@ class WebmailController < ApplicationController
     @customer = Customer.find(logged_customer)
     @mailpref = MailPref.find_or_create_by_customer_id logged_customer
     
-    if params['op'] == _('Save')
+    if params['op'] == _('save')
       if params['customer']
         @customer.fname = params['customer']['fname']
         @customer.lname = params['customer']['lname']
